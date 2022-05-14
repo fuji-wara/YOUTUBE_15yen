@@ -28,6 +28,9 @@ search_url = [
     f'https://www.youtube.com/results?search_query=スロット&sp=CAESAhAC',
     f'https://www.youtube.com/results?search_query=パチスロ&sp=CAESAhAC',
     f'https://www.youtube.com/results?search_query=パチプロ&sp=CAESAhAC',
+    f'https://www.youtube.com/results?search_query=パチンカス&sp=CAESAhAC',
+    f'https://www.youtube.com/results?search_query=パチンコ女子&sp=CAESAhAC',
+    f'https://www.youtube.com/results?search_query=パチンコ実践&sp=CAESAhAC',
 ]
 
 base_url = 'https://www.youtube.com'

@@ -10,7 +10,7 @@ client = MongoClient('localhost', 27017) # ローカルホストDBに接続。
 collection1 = client.YOUTUBE.registered_channels
 collection1.create_index('key', unique = True) # データを一意に識別するキーを格納するkeyフィールドにユニークなインデックを作成する。
 
-pas = '/Users/fujiwarayuuki/お仕事お仕事/CSV/チャンネルリサーチ除外一覧表 - リサーチ除外一覧表.csv'
+pas = '/Users/fujiwarayuuki/python_project/YOUTUBE/チャンネルリサーチ除外一覧表 - リサーチ除外一覧表.csv'
 
 with open(pas, 'r') as ff:
     reader = csv.DictReader(ff)
