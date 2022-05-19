@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from bs4 import BeautifulSoup
-from selenium import webdriver
+import se as s
 import time
 import datetime
 from datetime import datetime as dt
@@ -9,16 +9,9 @@ import statistics
 import re
 
 
-# selenium 設定
-options = webdriver.chrome.options.Options()
-profile_path = '/Users/fujiwarayuuki/Library/Application Support/Google/Chrome/Default'
-options.add_argument('--user-data-dir=' + profile_path)
-driver = webdriver.Chrome("./chromedrive/chromedriver",options=options)
-
-
 # mongo 設定
 client = MongoClient('localhost', 27017) # ローカルホストDBに接続。
-collection1 = client.YOUTUBE.channel_list1
+collection1 = client.YOUTUBE.channel_list2
 collection2 = client.YOUTUBE.completion_list
 
 
@@ -42,7 +35,7 @@ def main():
         except:
             print(f'{channel_title} 失敗')
     
-    driver.quit()
+    s.driver.quit()
 
 
 def scrap_cannel(channel_title, channel_url, channel_all):
@@ -53,9 +46,9 @@ def scrap_cannel(channel_title, channel_url, channel_all):
     all_videos = channel_all 
 
     # 投稿頻度・最新日を取得する。
-    driver.get(f'{channel_url}/videos')
+    s.driver.get(f'{channel_url}/videos')
     time.sleep(5)
-    html_2 = driver.page_source.encode('utf-8')
+    html_2 = s.driver.page_source.encode('utf-8')
     soup_2 = BeautifulSoup(html_2, 'lxml')
     num = 0
     day_list = []
@@ -66,9 +59,9 @@ def scrap_cannel(channel_title, channel_url, channel_all):
         x = i.select_one('a#thumbnail.yt-simple-endpoint.inline-block.style-scope.ytd-thumbnail').get('href') 
         z = f'{base_url}{x}'
 
-        driver.get(z)
+        s.driver.get(z)
         time.sleep(10)
-        html_3 = driver.page_source.encode('utf-8')
+        html_3 = s.driver.page_source.encode('utf-8')
         soup_3 = BeautifulSoup(html_3, 'lxml')
         pattern = r'\b\d{4}/\d{2}/\d{2}\b'
 
@@ -80,11 +73,11 @@ def scrap_cannel(channel_title, channel_url, channel_all):
                 day_list.append(day)
 
             except: # ショート動画
-                driver.find_element_by_xpath('/html/body/ytd-app/div[1]/ytd-page-manager/ytd-shorts/div[1]/ytd-reel-video-renderer[1]/div[2]/ytd-reel-player-overlay-renderer/div[2]/div[1]/ytd-menu-renderer/yt-icon-button/button/yt-icon').click()
+                s.driver.find_element_by_xpath('/html/body/ytd-app/div[1]/ytd-page-manager/ytd-shorts/div[1]/ytd-reel-video-renderer[1]/div[2]/ytd-reel-player-overlay-renderer/div[2]/div[1]/ytd-menu-renderer/yt-icon-button/button/yt-icon').click()
                 time.sleep(2)
-                driver.find_element_by_xpath('/html/body/ytd-app/ytd-popup-container/tp-yt-iron-dropdown/div/ytd-menu-popup-renderer/tp-yt-paper-listbox/ytd-menu-service-item-renderer/tp-yt-paper-item/yt-icon').click()
+                s.driver.find_element_by_xpath('/html/body/ytd-app/ytd-popup-container/tp-yt-iron-dropdown/div/ytd-menu-popup-renderer/tp-yt-paper-listbox/ytd-menu-service-item-renderer/tp-yt-paper-item/yt-icon').click()
                 time.sleep(5)
-                element = driver.find_elements_by_xpath('/html/body/ytd-app/ytd-popup-container/tp-yt-paper-dialog/ytd-reel-description-sheet-renderer/div[2]/div/yt-formatted-string/span[1]')
+                element = s.driver.find_elements_by_xpath('/html/body/ytd-app/ytd-popup-container/tp-yt-paper-dialog/ytd-reel-description-sheet-renderer/div[2]/div/yt-formatted-string/span[1]')
                 time.sleep(2)
                 day = element[0].text
                 day = re.search(pattern, day).group()
